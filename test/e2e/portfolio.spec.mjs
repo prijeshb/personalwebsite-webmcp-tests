@@ -33,13 +33,13 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test("publishes a crawlable identity and portfolio navigation", async ({ page }) => {
+test("publishes a crawlable identity and portfolio category navigation", async ({ page }) => {
   await page.goto("/");
 
   await expect(page.locator("h1")).toBeVisible();
-  await expect(page.getByRole("link", { name: /^resume/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /projects/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /writing/i })).toBeVisible();
+  for (const label of ["Experience", "Projects", "Skills", "Education", "Contact"]) {
+    await expect(page.locator(`[data-resume-category="${label}"]`)).toBeVisible();
+  }
 });
 
 test("registers the public WebMCP portfolio tools", async ({ page }) => {
